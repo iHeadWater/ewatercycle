@@ -3,7 +3,7 @@ from typing import Set
 
 from pydantic import BaseModel
 
-from ewatercycle.util import to_absolute_path
+from src.ewatercycle.util import to_absolute_path
 
 
 class ParameterSet(BaseModel):

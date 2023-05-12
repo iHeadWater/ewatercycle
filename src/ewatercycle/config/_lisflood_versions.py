@@ -1,6 +1,6 @@
 """Versions of Lisflood container images."""
 
-from ewatercycle.container import VersionImages
+from src.ewatercycle.container import VersionImages
 
 version_images: VersionImages = {
     "20.10": {

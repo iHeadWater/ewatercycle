@@ -2,8 +2,8 @@
 """Documentation about ewatercycle_parametersetdb"""
 from typing import Any
 
-from ewatercycle.parametersetdb.config import CONFIG_FORMATS, AbstractConfig
-from ewatercycle.parametersetdb.datafiles import DATAFILES_FORMATS, AbstractCopier
+from src.ewatercycle.parametersetdb.config import CONFIG_FORMATS, AbstractConfig
+from src.ewatercycle.parametersetdb.datafiles import DATAFILES_FORMATS, AbstractCopier
 
 
 class ParameterSet:

@@ -8,7 +8,7 @@ from esmvalcore.experimental.config import Session
 from pydantic import BaseModel, validator
 from ruamel.yaml import YAML
 
-from ewatercycle.util import to_absolute_path
+from src.ewatercycle.util import to_absolute_path
 
 logger = logging.getLogger(__name__)
 

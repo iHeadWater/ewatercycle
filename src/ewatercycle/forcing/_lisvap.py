@@ -25,9 +25,9 @@ import os
 import subprocess
 from typing import Dict, Tuple
 
-from ewatercycle import CFG
-from ewatercycle.container import ContainerEngine
-from ewatercycle.parametersetdb.config import XmlConfig
+from src.ewatercycle import CFG
+from src.ewatercycle.container import ContainerEngine
+from src.ewatercycle.parametersetdb.config import XmlConfig
 
 from ..config._lisflood_versions import version_images
 from ..util import get_time
