@@ -1,17 +1,17 @@
 # eWaterCycle开发者中文使用说明
 eWaterCycle软件包目前只有英文版，为了方便大家在水文模型中使用eWaterCycle软件包，特写此文档eWaterCycle软件包中文使用说明。主要内容如下：
 ## 目录
-- [前言](##前言)
-- [系统安装](##1系统安装)
-  - [环境配置](###1、环境配置)
-  - [era5cli工具安装](###2、era5cli工具安装)
-  - [ESMValTool配置](###3、ESMValTool配置)
-  - [容器安装与配置](###4、容器安装与配置)
-  - [eWaterCycle包安装](###5、eWaterCycle包安装)
-  - [eWaterCycle配置](###6、eWaterCycle配置)
-- [eWaterCycle模型的运行](##2eWaterCycle模型的运行)
+- [前言](#前言)
+- [系统安装](#1系统安装)
+  - [环境配置](#1、环境配置)
+  - [era5cli工具安装](#2、era5cli工具安装)
+  - [ESMValTool配置](#3、ESMValTool配置)
+  - [容器安装与配置](#4、容器安装与配置)
+  - [eWaterCycle包安装](#5、eWaterCycle包安装)
+  - [eWaterCycle配置](#6、eWaterCycle配置)
+- [eWaterCycle模型的运行](#2eWaterCycle模型的运行)
 ## 前言
-1. 电脑需要Linux系统，如无Linux系统，推荐安装WSL，步骤可参考<https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-11-with-gui-support>
+1. 电脑需要Linux系统，如无Linux系统，推荐安装WSL，步骤可参考[Install Ubuntu on WSL2 and get started with graphical applications](https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-11-with-gui-support)
 （1）安装WSL，以管理员身份打开cmd并运行：wsl --install
 （2）在Powershell终端中运行：wsl --list --online，查看所有可用的发行版
 （3）可以通过运行以下命令安装发行版：wsl --install -d Ubuntu-22.04
@@ -20,7 +20,7 @@ eWaterCycle软件包目前只有英文版，为了方便大家在水文模型中
 3. VSCode连接UBuntu。
 
 ##  系统安装
-注意：在进行系统安装时，将前言的步骤完成，以免影响此步操作。若使用eWaterCycle软件包，您需要进行eWaterCycle模型的配置与数据集的下载。可参考<https://ewatercycle.readthedocs.io/en/latest>
+注意：在进行系统安装时，将前言的步骤完成，以免影响此步操作。若使用eWaterCycle软件包，您需要进行eWaterCycle模型的配置与数据集的下载。可参考[ ewatercycle’s documentation](https://ewatercycle.readthedocs.io/en/latest)
 
 ### 1、环境配置
 ewatercycle包需要一些地理空间非python包来生成强制数据。最好创建一个conda环境：
@@ -103,7 +103,7 @@ sudo systemctl disable docker.service
 sudo systemctl disable containerd.service
 ```
 ### 5、eWaterCycle包安装
-（1）注意：不要运行pip install ewatercycle。此代码为ewatercycle的包，将代码git clone到项目文件夹下。（2）在项目文件夹下配置环境。在.vscode文件夹下添加launch.json文件与settings.json文件,在项目文件夹下添加.env文件，三个文件中的内容可参考:<https://dlut-water.yuque.com/kgo8gd/tnld77/nzfd52h3dbn0hllt>。
+（1）注意：不要运行pip install ewatercycle。此代码为ewatercycle的包，将代码git clone到项目文件夹下。（2）在项目文件夹下配置环境。在.vscode文件夹下添加launch.json文件与settings.json文件,在项目文件夹下添加.env文件，三个文件中的内容可参考[开源Python项目（四）--开发篇](https://dlut-water.yuque.com/kgo8gd/tnld77/nzfd52h3dbn0hllt)。
 ### 6、eWaterCycle配置
 eWaterCycle是通过从配置文件中读取一些目录和设置来简化API实现数据准备、模型调用与运行。在Python环境中完成eWaterCycle配置文件的生成。
 ```Bash
