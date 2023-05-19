@@ -20,7 +20,7 @@ eWaterCycle软件包目前只有英文版，为了方便大家在水文模型中
 3. VSCode连接UBuntu。
 
 ##  系统安装
-注意：在进行系统安装时，将前言的步骤完成，以免影响此步操作。若使用eWaterCycle软件包，您需要进行eWaterCycle模型的配置与数据集的下载。可参考<https://ewatercycle.readthedocs.io/en/latest>
+注意：在进行系统安装时，将前言的步骤完成，以免影响此步操作。若使用eWaterCycle软件包，您需要进行eWaterCycle模型的配置与数据集的下载。可参考[ ewatercycle’s documentation](https://ewatercycle.readthedocs.io/en/latest)
 
 ### 1、环境配置
 ewatercycle包需要一些地理空间非python包来生成强制数据。最好创建一个conda环境：
@@ -103,7 +103,7 @@ sudo systemctl disable docker.service
 sudo systemctl disable containerd.service
 ```
 ### 5、eWaterCycle包安装
-（1）注意：不要运行pip install ewatercycle。此代码为ewatercycle的包，将代码git clone到项目文件夹下。（2）在项目文件夹下配置环境。在.vscode文件夹下添加launch.json文件与settings.json文件,在项目文件夹下添加.env文件，三个文件中的内容可参考:<https://dlut-water.yuque.com/kgo8gd/tnld77/nzfd52h3dbn0hllt>。
+（1）注意：不要运行pip install ewatercycle。此代码为ewatercycle的包，将代码git clone到项目文件夹下。（2）在项目文件夹下配置环境。在.vscode文件夹下添加launch.json文件与settings.json文件,在项目文件夹下添加.env文件，三个文件中的内容可参考[开源Python项目（四）--开发篇](https://dlut-water.yuque.com/kgo8gd/tnld77/nzfd52h3dbn0hllt)。
 ### 6、eWaterCycle配置
 eWaterCycle是通过从配置文件中读取一些目录和设置来简化API实现数据准备、模型调用与运行。在Python环境中完成eWaterCycle配置文件的生成。
 ```Bash
