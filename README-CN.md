@@ -207,17 +207,3 @@ plt.savefig('/home/wangjingyi/code/ewatercycle/scripts/output/plotsim.jpg')
 ```
  ## 贡献者列表
 欢迎大家积极贡献，这里是目前的贡献者：<https://github.com/iHeadWater/ewatercycle/graphs/contributors>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
