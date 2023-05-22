@@ -5,8 +5,8 @@ from typing import Dict, Optional, Tuple, Union
 
 import pandas as pd
 
-from ewatercycle import CFG
-from ewatercycle.util import get_time, to_absolute_path
+from src.ewatercycle import CFG
+from src.ewatercycle.util import get_time, to_absolute_path
 
 logger = logging.getLogger(__name__)
 

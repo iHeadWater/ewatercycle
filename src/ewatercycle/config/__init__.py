@@ -111,8 +111,8 @@ from pydantic import (
 )
 from ruamel.yaml import YAML
 
-from ewatercycle.parameter_set import ParameterSet
-from ewatercycle.util import to_absolute_path
+from src.ewatercycle.parameter_set import ParameterSet
+from src.ewatercycle.util import to_absolute_path
 
 logger = getLogger(__name__)
 

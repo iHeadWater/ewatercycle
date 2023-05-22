@@ -3,7 +3,7 @@ from logging import getLogger
 from os import linesep
 from typing import Dict, Optional, Tuple
 
-from ewatercycle import CFG
+from src.ewatercycle import CFG
 
 from ..config import SYSTEM_CONFIG, USER_HOME_CONFIG
 from ..parameter_set import ParameterSet

@@ -9,7 +9,7 @@ from grpc4bmi.bmi_client_docker import BmiClientDocker
 from grpc4bmi.bmi_memoized import MemoizedBmi
 from grpc4bmi.bmi_optionaldest import OptionalDestBmi
 
-from ewatercycle.config import CFG, ContainerEngine
+from src.ewatercycle.config import CFG, ContainerEngine
 
 ImageForContainerEngines = Dict[ContainerEngine, str]
 """Container image name for each container engine."""

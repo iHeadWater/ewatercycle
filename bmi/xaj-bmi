@@ -1,0 +1,234 @@
+
+from typing import Tuple
+from bmipy import Bmi
+import numpy as np
+
+from xaj import xaj
+
+import datetime
+
+
+class xajBmi(Bmi):
+    """Empty model wrapped in a BMI interface."""
+    name =  "hydro-model-xaj"
+    input_var_names = ("precipitation","ETp")
+    output_var_names = ("ET","streamflow")
+
+    # def days_since_industry_epoch(self, modeltime):
+    #     return (modeltime - datetime.date(1901, 1, 1)).days
+
+    # def in_modeltime(self, days_since_industry_epoch):
+    #     return (datetime.datetime(1901, 1, 1) + datetime.timedelta(days=days_since_industry_epoch)).date()
+    
+
+
+    def __init__(self):
+        """Create a BmiHeat model that is ready for initialization."""
+        self.model = None
+        # self.model_time = ModelTime()
+        self.time_units = "day"
+        # self.precipitation = 0
+        # self.ETp = 0
+
+    #BMI initialize (as a single step)
+    def initialize(self, config_file):
+        """Initialize the xaj model.
+
+        Parameters
+        ----------
+        config_file : str, optional
+            Path to name of input file.
+        """
+        if config_file is None:
+            self.model = xaj()
+        elif isinstance(config_file, str):
+            with open(config_file, "r") as file_obj:
+                self.model = xaj.from_file_like(file_obj.read())
+        else:
+            self.model = xaj.from_file_like(config_file)
+        
+        self.values = {
+            "precipitation": self.model.precipitation,
+            "ETp":self.model.ETp
+            }
+        self.var_units = {
+            "precipitation": "mm/day",
+            "ETp":"mm/day"}
+        
+        self.var_loc = {
+            "precipitation": "node",
+            "ETp":"node"
+            }
+
+        
+    def update(self):
+        """Update model for a single time step."""
+
+        return self.model.run()
+
+    def update_frac(self, time_frac):
+        """Update model by a fraction of a time step.
+
+        Parameters
+        ----------
+        time_frac : float
+            Fraction fo a time step.
+        """
+        time_step = self.get_time_step()
+        self.model.time_step = time_frac * time_step
+        self.update()
+        self.model.time_step = time_step
+    
+    def update_until(self, time):
+        n_steps = (time - self.get_current_time()) / self.get_time_step()
+
+        for step  in range(int(n_steps)):
+            self.update(step)
+        self.update_frac(n_steps - int(n_steps))
+
+    def finalize(self) -> None:
+        """Finalize model."""
+        self.model = None
+
+    def get_component_name(self) -> str:
+        return "xaj"
+
+    def get_input_item_count(self) -> int:
+        return len(self.input_var_names)
+
+    def get_output_item_count(self) -> int:
+        return len(self.output_var_names)
+
+    def get_input_var_names(self) -> Tuple[str]:
+        return self.input_var_names
+    
+    def get_output_var_names(self) -> Tuple[str]:
+        return self.output_var_names
+
+    def get_var_grid(self, name: str) -> int:
+        raise NotImplementedError()
+
+    def get_var_type(self, name: str) -> str:
+        return 'float64'
+
+    def get_var_units(self, name: str) -> str:
+        return self.var_units[name]
+
+    def get_var_itemsize(self, name: str) -> int:
+        return np.dtype(self.get_var_type(name)).itemsize
+
+    def get_var_nbytes(self, name: str) -> int:
+        return self.get_value_ptr(name).nbytes
+
+    def get_var_location(self, name: str) -> str:
+        return self.var_loc[name]
+
+    def get_start_time(self):
+        return self.model.start_time
+
+    def get_current_time(self):
+        return self.model.current_time
+
+    def get_end_time(self):
+        return self.model.end_time
+
+    def get_time_units(self) -> str:
+        return self.time_units
+
+    def get_time_step(self) -> float:
+        return self.model.time_step
+
+    def get_value(self, name: str, dest: np.ndarray) -> None:
+        """获取变量的值"""
+        if name in self.values:
+        # 如果self.values字典中包含name键,则获取对应的值
+           dest[:] = self.values[name]
+        else:
+           raise AttributeError("对象没有{name}属性")
+        
+    def get_value_ptr(self, name: str) -> np.ndarray:
+        # if name not in self.__dict__:
+        #   print(f"{name} 属性不存在")
+        #   return
+        return self.__dict__[name]
+
+    def get_value_at_indices(
+        self, name: str, dest: np.ndarray, inds: np.ndarray
+    ) -> np.ndarray:
+        dest[:] = self.get_value_ptr(name).take(inds)
+        return dest
+
+    def set_value(self, name: str, src: np.ndarray):
+        # print(src)
+        # print(self.values[name][:])
+        # if src.size == 0:  # 如果 src 为空  
+        #    src = np.array([0])  # 使用默认值填充
+
+        if name in self.values:
+            diff = np.prod(src.shape) - np.prod(self.values[name].shape)
+            self.values[name] = np.pad(self.values[name], ((0, diff)))
+            self.values[name][:]=self.values[name][:].reshape(src.shape)
+            # src = src.reshape(self.values[name].shape)
+            self.values[name][:] = src
+        else:
+            raise AttributeError("对象没有{name}属性")  
+        
+    def set_value_at_indices(
+        self, name: str, inds: np.ndarray, src: np.ndarray
+    ) -> None:
+        val = self.get_value_ptr(name)
+        val.flat[inds] = src
+        
+    # Grid information
+    def get_grid_rank(self, grid: int) -> int:
+        raise NotImplementedError()
+
+    def get_grid_size(self, grid: int) -> int:
+        raise NotImplementedError()
+
+    def get_grid_type(self, grid: int) -> str:
+        raise NotImplementedError()
+
+    # Uniform rectilinear
+    def get_grid_shape(self, grid: int, shape: np.ndarray) -> np.ndarray:
+        raise NotImplementedError()
+
+    def get_grid_spacing(self, grid: int, spacing: np.ndarray) -> np.ndarray:
+        raise NotImplementedError()
+
+    def get_grid_origin(self, grid: int, origin: np.ndarray) -> np.ndarray:
+        raise NotImplementedError()
+
+    # Non-uniform rectilinear, curvilinear
+    def get_grid_x(self, grid: int, x: np.ndarray) -> np.ndarray:
+        raise NotImplementedError()
+
+    def get_grid_y(self, grid: int, y: np.ndarray) -> np.ndarray:
+        raise NotImplementedError()
+
+    def get_grid_z(self, grid: int, z: np.ndarray) -> np.ndarray:
+        raise NotImplementedError()
+
+    def get_grid_node_count(self, grid: int) -> int:
+        raise NotImplementedError()
+
+    def get_grid_edge_count(self, grid: int) -> int:
+        raise NotImplementedError()
+
+    def get_grid_face_count(self, grid: int) -> int:
+        raise NotImplementedError()
+
+    def get_grid_edge_nodes(self, grid: int, edge_nodes: np.ndarray) -> np.ndarray:
+        raise NotImplementedError()
+
+    def get_grid_face_edges(self, grid: int, face_edges: np.ndarray) -> np.ndarray:
+        raise NotImplementedError()
+
+    def get_grid_face_nodes(self, grid: int, face_nodes: np.ndarray) -> np.ndarray:
+        raise NotImplementedError()
+
+    def get_grid_nodes_per_face(
+        self, grid: int, nodes_per_face: np.ndarray
+    ) -> np.ndarray:
+        raise NotImplementedError()
+    
