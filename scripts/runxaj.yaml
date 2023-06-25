@@ -4,8 +4,8 @@
   end_time_str: "2016-12-31"
   time_units: "days"
   basin_area: "1.783"
-# #initial condition
-#   forcing_file: "/home/wangjingyi/code/hydro-model-xaj/hydromodel/example/hymod_input.csv"
+#initial condition
+ forcing_file: "/home/wangjingyi/code/hydro-model-xaj/hydromodel/example/hymod_input.csv"
 #   json_file: "/home/wangjingyi/code/hydro-model-xaj/hydromodel/example/01013500_lump_p_pe_q.json"
 #   npy_file: "/home/wangjingyi/code/hydro-model-xaj/hydromodel/example/01013500_lump_p_pe_q.npy"
 #   warmup_length: 365
