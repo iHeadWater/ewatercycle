@@ -7,9 +7,9 @@ except ImportError:
 from pydantic import BaseModel, Field
 from ruamel.yaml import YAML
 
-from ewatercycle.forcing import _hype, _lisflood, _marrmot, _pcrglobwb, _wflow
-from ewatercycle.forcing._default import FORCING_YAML, DefaultForcing
-from ewatercycle.util import to_absolute_path
+from src.ewatercycle.forcing import _hype, _lisflood, _marrmot, _pcrglobwb, _wflow
+from src.ewatercycle.forcing._default import FORCING_YAML, DefaultForcing
+from src.ewatercycle.util import to_absolute_path
 
 FORCING_CLASSES: Dict[str, Type[DefaultForcing]] = {
     "hype": _hype.HypeForcing,

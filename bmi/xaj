@@ -1,0 +1,129 @@
+
+import yaml
+import numpy as np
+import datetime
+
+
+
+class xaj(object):
+    
+    def __init__(self, **kwgwards):
+        """Initialize a xaj model."""
+        config = kwgwards
+        self._precipitation = np.random.random([1,])
+        self._ETp = np.random.random([1,])
+        self._read_forcings = [self._precipitation,self._ETp]
+        self._start_time_str = config['start_time_str']
+        self._end_time_str = config['end_time_str']
+        self._current_time = self.start_time
+        self._time_step = config['time_step']
+        self.S = 10
+        self.S_prev = 10
+
+
+
+    def get_start_Time(self, _start_time_str):
+        sd = str(_start_time_str).split('-')
+        if len(sd) != 3:
+            raise ValueError('Invalid start date format!')
+        self._startTime = datetime.date(int(sd[0]), int(sd[1]), int(sd[2]))
+        return self._startTime
+    
+    def get_end_Time(self, _end_time_str):
+        sd = str(_end_time_str).split('-')
+        if len(sd) != 3:
+            raise ValueError('Invalid start date format!')
+        self._endTime = datetime.date(int(sd[0]), int(sd[1]), int(sd[2]))
+        return self._endTime
+    
+
+    def update(self):
+        # self._time_step += time_step
+        ET = min(self._ETp, self.S)     # 计算实际蒸散发量
+        self.S -= ET                 # 更新土壤水分量
+        Q =  self._precipitation - ET - (self.S - self.S_prev)  # 计算流量
+        self.S_prev = self.S         # 保存当前土壤水分备用
+        return ET, Q                 # 返回实际蒸散发量和流量
+    
+    def run(self):
+        """Run model for multiple time steps."""
+        # for ts in self._time_steps:
+        while self._current_time < self.end_time:
+            ET, Q = self.update()  # 调用更新方法
+            self._current_time = self._current_time + datetime.timedelta(days=1)     # 更新时间
+
+            # 显示结果
+            print(f'Time: {self.current_time} ') 
+            print(f'ET: {ET} mm')
+            print(f'Q: {Q} mm')
+
+
+    @property
+    def time_step(self):
+        return self._time_step
+
+    @property
+    def start_time(self):
+        return self.get_start_Time(self._start_time_str)
+    
+    @property
+    def end_time(self):
+        """datetime.datetime: End time of the model."""
+        return self.get_end_Time(self._end_time_str) 
+    
+    @property
+    def current_time(self):
+        return self._current_time
+ 
+    @classmethod      
+    def from_file_like(cls, file_like):
+        """Create a xaj object from a file-like object.
+
+        Parameters
+        ----------
+        file_like : file_like
+            Input parameter file.
+
+        Returns
+        -------
+        xaj instance
+            A new instance of a xaj object.
+        """
+        config = yaml.safe_load(file_like)
+        if not isinstance(config, dict):
+            raise TypeError('Config file should contain a dictionary!')
+        return cls(**config)
+    
+    def read_forcings(self):
+        "读气象数据"
+        return self._read_forcings
+    
+    @property
+    def precipitation(self):
+        return self._precipitation
+
+    @precipitation.setter
+    def precipitation(self, new_prcp):
+        """
+
+        Parameters
+        ----------
+        new_temp : array_like
+            The new precipitation.
+        """
+        self.precipitation[:] = new_prcp
+        
+    @property
+    def ETp(self):
+        return self._ETp
+
+    @ETp.setter
+    def ETp(self, new_ETp):
+        """
+
+        Parameters
+        ----------
+        new_temp : array_like
+            The new ETp.
+        """
+        self.ETp[:] = new_ETp

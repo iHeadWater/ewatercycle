@@ -158,7 +158,7 @@ class PCRGlobWB(AbstractModel[PCRGlobWBForcing]):
         if "dynamic_flood_plain" in kwargs:
             cfg.set(
                 "routingOptions",
-                "dynamicFloodPlain",
+                "dynamicFloodPlain",  
                 kwargs["dynamic_flood_plain"],
             )
 

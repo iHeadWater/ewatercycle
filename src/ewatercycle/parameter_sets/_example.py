@@ -6,7 +6,7 @@ from urllib import request
 
 from pydantic import AnyUrl
 
-from ewatercycle import CFG
+from src.ewatercycle import CFG
 
 from ..parameter_set import ParameterSet
 

@@ -11,9 +11,9 @@ from cftime import num2date
 from grpc4bmi.bmi_optionaldest import OptionalDestBmi
 from grpc4bmi.reserve import reserve_values, reserve_values_at_indices
 
-from ewatercycle._repr import Representation
-from ewatercycle.forcing import DefaultForcing
-from ewatercycle.parameter_sets import ParameterSet
+from src.ewatercycle._repr import Representation
+from src.ewatercycle.forcing import DefaultForcing
+from src.ewatercycle.parameter_sets import ParameterSet
 
 logger = logging.getLogger(__name__)
 
